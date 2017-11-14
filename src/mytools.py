@@ -1,5 +1,6 @@
 from math import sin, cos, sqrt, atan2, radians
 import pandas as pd
+import networkx as nx
 
 class tools():
     def distance(self,lat1,lon1,lat2,lon2):
@@ -16,6 +17,13 @@ class tools():
         distance = R * c
         return distance
 
+    def get_nodes_without_checkin(self,pos = pd.DataFrame):
+        pos = pos[pos.iloc[:,4] != '00000000000000000000000000000000']
+        nodes_list = pos['node'].drop_duplicates().tolist()
+        # number of nodes: 58227
+        node_without_checkin = list(set(list(range(0,58228))) - set(nodes_list))
+        return node_without_checkin
+
     def remove_zero(self,df,cols = []):
         # remove rows that satisfying all attributes in col[] list are zero
         if len(cols) > 0:
@@ -24,6 +32,7 @@ class tools():
         else:
             # case 1
             df = df[df.iloc[:,4] != '00000000000000000000000000000000']
+            #nodes_list = df['nodes'].value().tolist()
         return df
     def decrease(self, edges, posdf, size):
         posdf = posdf.drop_duplicates(subset=['node'], keep='first') # the first means the most new location
@@ -33,7 +42,6 @@ class tools():
         pos ={}
         for i in range(len(posdf)):
             currentid = posdf.iloc[i, 0]
-            # pos[currentid] = (posdf.iloc[i, 2], posdf.iloc[i, 3])
             pos[currentid] = {'latitude':posdf.iloc[i, 2], 'longitude':posdf.iloc[i, 3]}
         partedges = edges[(edges.n1 < size) & (edges.n2 < size)]
         return partedges, pos

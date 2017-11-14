@@ -13,9 +13,14 @@ class algorithm1():
 
     def __init__(self,size):
         graphReader = getGraph()
+        pos_org = reader.read(filename='totallocation',type='pos')
         partedges, pos = graphReader.getgraph(size=size)
 
         self.G1 = nx.from_pandas_dataframe(partedges,'n1','n2')
+
+        nodes_to_be_remove = tool.get_nodes_without_checkin(pos=pos_org)
+        self.G1.remove_nodes_from(nodes_to_be_remove)
+
         nx.set_node_attributes(G=self.G1,values=pos)
         self.subgraphs = []
         self.circles = []
@@ -24,22 +29,9 @@ class algorithm1():
     # edges: all egdes
     # node: the given node for search
     # threshold: the distance limitation
-        G = self.G1  # G for the test
-
+        G = self.G1
         Gk,k_max = self.Gk_with_max_k(n=node,G=G,k=k)
-        components = list(nx.connected_component_subgraphs(G=Gk,copy=True))
-        # print("The org size is {0} edges and {1} nodes, and the k-core graph size is {2} edges and {3} nodes \n"
-        #       " Number of connected components(Gk) is {4}".format(G.size(),len(G),Gk.size(),len(Gk),nx.number_connected_components(Gk)))
-
-        # for c in components:
-        #     if len(nx.node_connected_component(G = c, n=node)) != 0:
-            #     print("Find the subgraph with {0} with node {1}".format(len(c), node))
-            # else:
-            #     print("not found")
-            #print(len(c))
-            # print(len(nx.node_connected_component(G = c, n=node)))
-        # print("The number of node of graph includes given node is {0}\n"
-        #       " The number of components of the found graph is {1}".format(len(components)))
+        #components = list(nx.connected_component_subgraphs(G=Gk,copy=True))
         Xset = nx.node_connected_component(G=Gk,n=node)
         X = list(Xset)  # X is the list of Nodes of k-core graph
         print("The {0}-core subgraph of given node {1} has {2} nodes".format(k_max,node,len(X)))
@@ -53,13 +45,14 @@ class algorithm1():
                                                   lon2=xy)
                     if R<distance_threshold and d_node_center<distance_threshold:
                         self.circles.append((xx, xy, R))
+
+        max_size = 0 # = len(nodes)
         for circle in self.circles:
             # select largest one from the possible circles
             xx = circle[0]
             xy = circle[1]
             R = circle[2]
-            nodes = []
-            max_size = len(nodes)
+            nodes = [] # clear up
             for x in X:
                 node_to_center = tool.distance(lat1=Gk.nodes[x]['latitude'],
                                                lon1=Gk.nodes[x]['longitude'],
@@ -68,16 +61,9 @@ class algorithm1():
                 if node_to_center < R:
                     nodes.append(x)
             if max_size<len(nodes):
-                max = len(nodes)
+                max_size = len(nodes)
+                print(max_size)
                 nodes_circle = (nodes,circle)
-
-        #     print(len(nodes),nodes,'and circle',circle,'\n') # test result: the nodes for each circle is normal
-        #     self.subgraphs.append((nodes,circle))
-        # print(list(self.subgraphs)) # missing the given node sometimes TODO
-
-
-        #nodes_circle = max(self.subgraphs)  # it returns the tuple that has max len(nodes)
-        # print(nodes_circle,list(nodes_circle[0]))
         print("The size of possible centers is {0}".format(len(self.circles)))
         return nodes_circle
     def statistics(self):
