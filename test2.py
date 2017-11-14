@@ -21,6 +21,3 @@
 #
 # nodes = []
 # center = {}
-# listtuple = [([1,5],(49, 81, 103)),([2,3,4],(42, 8, 103)),([1],(49, 8, 113))]
-# result = min(listtuple)
-# print(result)

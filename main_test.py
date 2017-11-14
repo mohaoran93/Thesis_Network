@@ -6,7 +6,7 @@ visualization = Visualization()
 #algo1_3000 = algorithm1(size=3000)
 algo1 = algorithm1(size=300)
 
-nodes_cirle = algo1.execute(node=10,k=3,distance_threshold=3000)
+nodes_cirle = algo1.execute(node=10,k=3,distance_threshold=1000)
 
 print("the size of community is {0} and the circle center is {1}, the finally radius is {2} km"
       .format(len(nodes_cirle[0]),(nodes_cirle[1][0],nodes_cirle[1][1]),nodes_cirle[1][2]))

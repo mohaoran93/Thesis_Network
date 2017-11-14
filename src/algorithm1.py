@@ -53,13 +53,13 @@ class algorithm1():
                                                   lon2=xy)
                     if R<distance_threshold and d_node_center<distance_threshold:
                         self.circles.append((xx, xy, R))
-        #TODO select one from the possible circles
-
         for circle in self.circles:
+            # select largest one from the possible circles
             xx = circle[0]
             xy = circle[1]
             R = circle[2]
             nodes = []
+            max_size = len(nodes)
             for x in X:
                 node_to_center = tool.distance(lat1=Gk.nodes[x]['latitude'],
                                                lon1=Gk.nodes[x]['longitude'],
@@ -67,12 +67,16 @@ class algorithm1():
                                                lon2=xy)
                 if node_to_center < R:
                     nodes.append(x)
-            print(len(nodes),nodes,'and circle',circle,'\n') # test result: the nodes for each circle is normal
-            self.subgraphs.append((nodes,circle))
-        print("zhanding:",list(self.subgraphs)) # missing the given node sometimes TODO
+            if max_size<len(nodes):
+                max = len(nodes)
+                nodes_circle = (nodes,circle)
+
+        #     print(len(nodes),nodes,'and circle',circle,'\n') # test result: the nodes for each circle is normal
+        #     self.subgraphs.append((nodes,circle))
+        # print(list(self.subgraphs)) # missing the given node sometimes TODO
 
 
-        nodes_circle = max(self.subgraphs)  # it returns the tuple that has max len(nodes)
+        #nodes_circle = max(self.subgraphs)  # it returns the tuple that has max len(nodes)
         # print(nodes_circle,list(nodes_circle[0]))
         print("The size of possible centers is {0}".format(len(self.circles)))
         return nodes_circle

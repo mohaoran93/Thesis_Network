@@ -33,7 +33,8 @@ class tools():
         pos ={}
         for i in range(len(posdf)):
             currentid = posdf.iloc[i, 0]
-            pos[currentid] = (posdf.iloc[i, 2], posdf.iloc[i, 3])
+            # pos[currentid] = (posdf.iloc[i, 2], posdf.iloc[i, 3])
+            pos[currentid] = {'latitude':posdf.iloc[i, 2], 'longitude':posdf.iloc[i, 3]}
         partedges = edges[(edges.n1 < size) & (edges.n2 < size)]
         return partedges, pos
     def artificallocation(self,org = pd.DataFrame,newdf = None):
