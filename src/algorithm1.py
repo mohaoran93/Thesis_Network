@@ -7,28 +7,33 @@ from src.mytools import tools
 from src.getRawData import getGraph
 import networkx as nx
 tool = tools()
-reader = getRawData()
+"""
+    parameter
+    edges: all egdes
+    node: the given node for search
+    threshold: the distance limitation
 
-class algorithm1():
+"""
+
+
+class algorithm1(object):
 
     def __init__(self,size):
         graphReader = getGraph()
-        pos_org = reader.read(filename='totallocation',type='pos')
+        reader = getRawData()
+
+
+        pos_org = reader.read(filename='totallocation',type='pos')  # location file is very large
         partedges, pos = graphReader.getgraph(size=size)
+        nodes_to_be_remove = tool.get_nodes_without_checkin(pos=pos_org)
 
         self.G1 = nx.from_pandas_dataframe(partedges,'n1','n2')
-
-        nodes_to_be_remove = tool.get_nodes_without_checkin(pos=pos_org)
         self.G1.remove_nodes_from(nodes_to_be_remove)
 
         nx.set_node_attributes(G=self.G1,values=pos)
         self.subgraphs = []
         self.circles = []
-    def execute(self,edges=None,location=None,node=None,distance_threshold=None,k = 3):
-    # @parameter
-    # edges: all egdes
-    # node: the given node for search
-    # threshold: the distance limitation
+    def execute(self,node=None,distance_threshold=None,k = 3):
         G = self.G1
         Gk,k_max = self.Gk_with_max_k(n=node,G=G,k=k)
         #components = list(nx.connected_component_subgraphs(G=Gk,copy=True))

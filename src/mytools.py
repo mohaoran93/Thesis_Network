@@ -2,7 +2,7 @@ from math import sin, cos, sqrt, atan2, radians
 import pandas as pd
 import networkx as nx
 
-class tools():
+class tools(object):
     def distance(self,lat1,lon1,lat2,lon2):
         # approximate radius of earth in km
         R = 6373.0

@@ -17,15 +17,7 @@ print(nodes_cirle[0])
 # [10, 28, 53, 60, 77, 79, 95, 114, 154, 221, 248, 256, 264, 267, 282]
 # 1000
 #
+# The size of possible centers is 20
+# the size of community is 5 and the circle center is (49.616683333333334, 6.1319289999999995), the finally radius is 3.995334067140018 km
+# [10, 28, 60, 79, 843]
 
-
-# size is not None
-# The 3-core subgraph of given node 10 has 693 nodes
-# Traceback (most recent call last):
-#   File "/Users/mohaoran/PycharmProjects/Thesis_Network/main_test.py", line 9, in <module>
-#     nodes_cirle = algo1.execute(node=10,k=3,distance_threshold=1000)
-#   File "/Users/mohaoran/PycharmProjects/Thesis_Network/src/algorithm1.py", line 49, in execute
-#     xx,xy,R = self.mcc1(i,j,h,X)
-#   File "/Users/mohaoran/PycharmProjects/Thesis_Network/src/algorithm1.py", line 121, in mcc1
-#     lat1 = self.G1.nodes[X[i]]['latitude']
-# KeyError: 'latitude'
