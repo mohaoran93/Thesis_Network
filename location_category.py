@@ -11,14 +11,12 @@ df = tool.remove_zero(df = df)
 size =100000
 df = df[0:size]
 # df['latitude']   df['longitude']
-
-#x = np.random.randn(1000)
 x = df['longitude']
-#y = np.random.randn(1000)
 y = df['latitude']
 
-nullfmt = NullFormatter()         # no labels
-# labels = FixedFormatter(['longitude','latitude'])
+# plot
+nullfmt = NullFormatter()         # no ticks labels
+
 # definitions for the axes
 left, width = 0.1, 0.65
 bottom, height = 0.1, 0.65
@@ -30,6 +28,7 @@ rect_histy = [left_h, bottom, 0.2, height]
 
 # start with a rectangular Figure
 plt.figure(1, figsize=(8, 8))
+
 
 axScatter = plt.axes(rect_scatter)
 axHistx = plt.axes(rect_histx)
@@ -43,16 +42,23 @@ axHisty.yaxis.set_major_formatter(nullfmt)
 axScatter.scatter(x, y)
 
 # now determine nice limits by hand:
-binwidth = 0.25
+binwidth = 0.15
 xymax = max(np.max(np.abs(x)), np.max(np.abs(y)))
 lim = (int(xymax/binwidth) + 1) * binwidth
+limx = lim
+limy = 120
 
-axScatter.set_xlim((-lim, lim))
-axScatter.set_ylim((-lim, lim))
+axScatter.set_xlim((-limx, limx)) # the limits
+axScatter.set_ylim((-75, 100))
+axScatter.set_xlabel(xlabel='longitude')
+axScatter.set_ylabel(ylabel='latitude')
+# axScatter.set_title('scatter plot of locations') # problem the title will be covered by histogram thus invisible.
 
 bins = np.arange(-lim, lim + binwidth, binwidth)
 axHistx.hist(x, bins=bins)
 axHisty.hist(y, bins=bins, orientation='horizontal')
+axHistx.set_title('histogram of longitudes')
+axHisty.set_title('histogram of latitude')
 
 axHistx.set_xlim(axScatter.get_xlim())
 axHisty.set_ylim(axScatter.get_ylim())

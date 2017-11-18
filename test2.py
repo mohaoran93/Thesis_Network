@@ -1,3 +1,4 @@
+#import gtk
 import matplotlib.pyplot as plt
 from networkx.algorithms import core
 import pandas as pd
