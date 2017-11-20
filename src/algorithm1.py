@@ -23,9 +23,9 @@ class algorithm1(object):
         reader = getRawData()
 
 
-        pos_org = reader.read(filename='totallocation',type='pos')  # location file is very large
+        self.pos_org = reader.read(filename='totallocation',type='pos')  # location file is very large
         partedges, pos = graphReader.getgraph(size=size)
-        nodes_to_be_remove = tool.get_nodes_without_checkin(pos=pos_org)
+        nodes_to_be_remove = tool.get_nodes_without_checkin(pos=self.pos_org)
 
         self.G1 = nx.from_pandas_dataframe(partedges,'n1','n2')
         self.G1.remove_nodes_from(nodes_to_be_remove)
@@ -135,3 +135,18 @@ class algorithm1(object):
             center = (self.G1.nodes[X[i]]['latitude']-self.G1.nodes[X[j]]['latitude'])/2,(self.G1.nodes[X[i]]['longitude'] - self.G1.nodes[X[j]]['longitude'])/2
             R = L3/2
         return center,R
+    def adjustmen(self,circle_org):
+        # This is a patch for adjusting the center location
+        # input:
+        #        1. the circle with the form of (list of nodes, (center location, radius))
+        #        2. data: history of movements of these nodes.
+        # output:
+        #        A circle with a accessible location
+        nodes = circle_org[0]
+        center = (circle_org[1][0],circle_org[1][1])
+        radius = circle_org[1][2]
+        pos_org = self.pos_org
+        #TODO
+
+        circle = (nodes,(center,radius))
+        return circle

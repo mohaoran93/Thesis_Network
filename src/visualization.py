@@ -9,6 +9,7 @@ reader = getRawData()
 
 
 class Visualization():
+    # TODO
     def __init__(self):
         pass
     # visualization method 1
@@ -24,11 +25,13 @@ class Visualization():
         }
         G1 = nx.from_pandas_dataframe(partedges,'n1','n2')
         nx.draw_networkx(G1,pos=pos,**options)
+        plt.xlabel('longitude')
+        plt.ylabel('latitude')
         plt.show()
     # visualization method 2
     # input: the nx graph
     # output: the visualization for this graph
-    def visualization_with_spatial_info(self,G):
+    def visualization_for_nx_Graph(self,G):
         options = {
             'node_size': 30,
             'font_size': 8,
