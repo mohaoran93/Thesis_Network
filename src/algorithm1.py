@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import networkx as nx
 from networkx.algorithms import core
 import pandas as pd
 from src.getRawData import getRawData
@@ -7,13 +6,25 @@ from src.mytools import tools
 from src.getRawData import getGraph
 import networkx as nx
 tool = tools()
-"""
-    parameter
-    edges: all egdes
-    node: the given node for search
-    threshold: the distance limitation
-
-"""
+'''
+==Algorithm 1 NS (Naive Search)==
+ input: 
+        node : the given node to be used in search
+        k: (optional) 
+        distance_threshold: radius-threshold 
+        
+ output: 
+        circle: a  having tuple form (nodes,(o,r))
+        o: (longitude,latitude)
+        r: the final radius which is smaller than distance_threshold
+        
+== ==
+TODO idea:
+1. I think this algorithm is fit for the radius-threshold is samll,
+in this case, this algorithm can be improved by removing the d(i,j) > 2*distance_threshold
+in advance. Time complex is still n^3 
+2. 
+'''
 
 
 class algorithm1(object):
